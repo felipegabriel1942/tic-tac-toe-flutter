@@ -48,5 +48,14 @@ class GameState {
     _gridContents.add(row);
   }
 
+  void playTurn(int col, int row) {
+    if (canPlay(col, row)) {
+      setGridContent(col, row, _playerOnTurn?.mark);
+      changeTurn();
+    }
+  }
+
+  bool canPlay(int col, int row) => !gridHasContent(col, row);
+
   Player? get playerOnTurn => _playerOnTurn;
 }

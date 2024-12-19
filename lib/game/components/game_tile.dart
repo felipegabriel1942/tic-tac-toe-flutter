@@ -8,11 +8,6 @@ class GameTile extends PositionComponent with TapCallbacks {
   final int row;
   final int col;
 
-  bool isActive = false;
-
-  static final activeColor = Paint()..color = Colors.blue;
-  static final inactiveColor = Paint()..color = Colors.grey;
-
   GameTile(Vector2 position, Vector2 size, this.row, this.col)
       : super(
           position: position,
@@ -53,14 +48,6 @@ class GameTile extends PositionComponent with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent event) {
-    var gameState = getIt<GameState>();
-
-    if (!gameState.gridHasContent(col, row)) {
-      isActive = true;
-
-      gameState.setGridContent(col, row, gameState.playerOnTurn?.mark);
-
-      gameState.changeTurn();
-    }
+    getIt<GameState>().playTurn(col, row);
   }
 }
