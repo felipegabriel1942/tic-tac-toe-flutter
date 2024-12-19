@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_flutter/injectable.dart';
 import 'package:tic_tac_toe_flutter/screens/game_screen.dart';
 import 'package:tic_tac_toe_flutter/screens/home_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  configureDependencies();
+
   runApp(const MyApp());
 }
 

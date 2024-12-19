@@ -1,18 +1,21 @@
+import 'package:injectable/injectable.dart';
 import 'package:tic_tac_toe_flutter/models/player.dart';
 
+@lazySingleton
+@injectable
 class GameState {
   final List<List<String?>> _gridContents = [];
-
   Player? _player1;
   Player? _player2;
   Player? _playerOnTurn;
 
-  static final GameState _instance = GameState._();
+  int rows = 3;
+  int cols = 3;
 
-  GameState._();
-
-  static GameState get instance {
-    return _instance;
+  GameState() {
+    for (int row = 0; row < rows; row++) {
+      _gridContents.add(List.filled(cols, null));
+    }
   }
 
   void changeTurn() {
@@ -21,6 +24,12 @@ class GameState {
     } else {
       _playerOnTurn = _player1;
     }
+  }
+
+  void initializePlayers(Player player1, Player player2) {
+    _player1 = player1;
+    _player2 = player2;
+    _playerOnTurn = player1;
   }
 
   bool gridHasContent(int col, int row) {
@@ -39,27 +48,5 @@ class GameState {
     _gridContents.add(row);
   }
 
-  Player? getPlayer1() {
-    return _player1;
-  }
-
-  Player? getPlayer2() {
-    return _player2;
-  }
-
-  set player1(Player player) {
-    _player1 = player;
-  }
-
-  set player2(Player player) {
-    _player2 = player;
-  }
-
-  set playerOnTurn(Player player) {
-    _playerOnTurn = player;
-  }
-
-  Player? getPlayerOnTurn() {
-    return _playerOnTurn;
-  }
+  Player? get playerOnTurn => _playerOnTurn;
 }

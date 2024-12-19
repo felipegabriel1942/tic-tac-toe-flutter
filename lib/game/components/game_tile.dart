@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_flutter/injectable.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 
 class GameTile extends PositionComponent with TapCallbacks {
@@ -22,7 +23,7 @@ class GameTile extends PositionComponent with TapCallbacks {
   void render(Canvas canvas) {
     super.render(canvas);
 
-    var gameState = GameState.instance;
+    var gameState = getIt<GameState>();
 
     final borderPaint = Paint()
       ..color = Colors.black
@@ -52,12 +53,12 @@ class GameTile extends PositionComponent with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent event) {
-    var gameState = GameState.instance;
+    var gameState = getIt<GameState>();
 
     if (!gameState.gridHasContent(col, row)) {
       isActive = true;
 
-      gameState.setGridContent(col, row, gameState.getPlayerOnTurn()?.mark);
+      gameState.setGridContent(col, row, gameState.playerOnTurn?.mark);
 
       gameState.changeTurn();
     }
