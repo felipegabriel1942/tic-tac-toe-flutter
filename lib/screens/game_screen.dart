@@ -15,10 +15,10 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    gameState.resetGame();
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Game Screen'),
-      ),
+      appBar: AppBar(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

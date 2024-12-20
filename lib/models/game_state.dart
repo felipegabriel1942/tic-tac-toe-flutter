@@ -24,9 +24,7 @@ abstract class _GameStateBase with Store {
   int cols = 3;
 
   _GameStateBase() {
-    for (int row = 0; row < rows; row++) {
-      _gridContents.add(List.filled(cols, null));
-    }
+    _initGridContent();
   }
 
   void changeTurn() {
@@ -73,4 +71,16 @@ abstract class _GameStateBase with Store {
   Player? get player1 => _player1;
 
   Player? get player2 => _player2;
+
+  void resetGame() {
+    _initGridContent();
+  }
+
+  void _initGridContent() {
+    _gridContents.clear();
+
+    for (int row = 0; row < rows; row++) {
+      _gridContents.add(List.filled(cols, null));
+    }
+  }
 }
