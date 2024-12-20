@@ -1,23 +1,22 @@
 import 'package:flame/components.dart';
 import 'package:tic_tac_toe_flutter/game/components/game_tile.dart';
-import 'package:tic_tac_toe_flutter/injectable.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 
 class GameGrid extends Component {
   final Vector2 screenSize;
+  final GameState gameState;
 
   final tileWidth = 100.0;
   final tileHeight = 100.0;
 
   GameGrid({
     required this.screenSize,
+    required this.gameState,
   });
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
-
-    final gameState = getIt<GameState>();
 
     final rows = gameState.rows;
     final cols = gameState.cols;
@@ -35,7 +34,7 @@ class GameGrid extends Component {
         var position =
             gridStartPosition + Vector2(col * tileWidth, row * tileHeight);
         var size = Vector2(tileWidth, tileHeight);
-        var tile = GameTile(position, size, row, col);
+        var tile = GameTile(position, size, row, col, gameState);
 
         add(tile);
       }

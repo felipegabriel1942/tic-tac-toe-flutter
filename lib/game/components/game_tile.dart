@@ -5,10 +5,11 @@ import 'package:tic_tac_toe_flutter/injectable.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 
 class GameTile extends PositionComponent with TapCallbacks {
+  final GameState gameState;
   final int row;
   final int col;
 
-  GameTile(Vector2 position, Vector2 size, this.row, this.col)
+  GameTile(Vector2 position, Vector2 size, this.row, this.col, this.gameState)
       : super(
           position: position,
           size: size,
@@ -17,8 +18,6 @@ class GameTile extends PositionComponent with TapCallbacks {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-
-    var gameState = getIt<GameState>();
 
     final borderPaint = Paint()
       ..color = Colors.black

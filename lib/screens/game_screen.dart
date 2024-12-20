@@ -1,31 +1,34 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_flutter/game/tic_tac_toe_game.dart';
-import 'package:tic_tac_toe_flutter/injectable.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 import 'package:tic_tac_toe_flutter/widgets/game_log.dart';
 
 class GameScreen extends StatelessWidget {
-  const GameScreen({super.key});
+  final GameState gameState;
+
+  const GameScreen({
+    super.key,
+    required this.gameState,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final gameState = getIt<GameState>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Game Screen'),
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             SizedBox(
               height: 300,
               child: GameWidget(
-                game: TicTacToeGame(),
+                game: TicTacToeGame(gameState: gameState),
               ),
             ),
-            const GameLog()
+            GameLog(gameState: gameState)
           ],
         ),
       ),

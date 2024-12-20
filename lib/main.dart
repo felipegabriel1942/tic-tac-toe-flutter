@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_flutter/injectable.dart';
+import 'package:tic_tac_toe_flutter/models/game_state.dart';
 import 'package:tic_tac_toe_flutter/screens/game_screen.dart';
 import 'package:tic_tac_toe_flutter/screens/home_screen.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const HomeScreen(),
-        '/game': (context) => const GameScreen()
+        '/game': (context) => GameScreen(gameState: getIt<GameState>())
       },
     );
   }
