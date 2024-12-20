@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tic_tac_toe_flutter/injectable.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 import 'package:tic_tac_toe_flutter/screens/game_screen.dart';
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Tic-Tac-Toe Flutter',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        textTheme: GoogleFonts.pressStart2pTextTheme(),
         useMaterial3: true,
       ),
       routes: {

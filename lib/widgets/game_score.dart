@@ -18,7 +18,8 @@ class GameScore extends StatelessWidget {
       height: 150,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(7),
+        borderRadius: BorderRadius.circular(6),
+        color: Colors.white,
         border: Border.all(
           color: Colors.black,
           width: 2,
@@ -29,7 +30,7 @@ class GameScore extends StatelessWidget {
         children: [
           const Text(
             'Placar',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
           Observer(builder: (_) => _buildPlayerRow(gameState.player1)),
           Observer(builder: (_) => _buildPlayerRow(gameState.player2)),
@@ -43,6 +44,8 @@ class GameScore extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    const TextStyle textStyle = TextStyle(fontSize: 12);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -50,18 +53,14 @@ class GameScore extends StatelessWidget {
           child: Text(
             player.name,
             textAlign: TextAlign.start,
-            style: const TextStyle(
-              fontSize: 18,
-            ),
+            style: textStyle,
           ),
         ),
         Flexible(
           child: Text(
             player.score.toString(),
             textAlign: TextAlign.start,
-            style: const TextStyle(
-              fontSize: 18,
-            ),
+            style: textStyle,
           ),
         ),
       ],

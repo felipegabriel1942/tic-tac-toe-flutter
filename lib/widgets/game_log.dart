@@ -18,20 +18,19 @@ class GameLog extends StatelessWidget {
           width: 300,
           height: 70,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(6),
+            color: Colors.white,
             border: Border.all(
               color: Colors.black,
               width: 2,
             ),
           ),
           child: gameState.playerOnTurn == null
-              ? const Text('')
+              ? const SizedBox.shrink()
               : Center(
                   child: Text(
-                    'Agora é sua vez ${gameState.playerOnTurn!.name}...',
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
+                    'É sua vez ${gameState.playerOnTurn!.name}!',
+                    style: const TextStyle(fontSize: 12),
                   ),
                 ),
         );
