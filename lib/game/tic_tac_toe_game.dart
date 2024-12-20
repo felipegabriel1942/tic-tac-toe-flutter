@@ -23,8 +23,8 @@ class TicTacToeGame extends FlameGame with HasKeyboardHandlerComponents {
 
   void initializeGame() {
     gameState.initializePlayers(
-      Player(name: 'Jogador 1', mark: 'X'),
-      Player(name: 'Jogador 2', mark: 'O'),
+      Player(name: 'Felipe', mark: 'X'),
+      Player(name: 'Jordana', mark: 'O'),
     );
 
     var grid = GameGrid(screenSize: size, gameState: gameState);

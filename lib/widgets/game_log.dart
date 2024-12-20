@@ -28,7 +28,7 @@ class GameLog extends StatelessWidget {
               ? const Text('')
               : Center(
                   child: Text(
-                    'Agora é a vez do ${gameState.playerOnTurn!.name}...',
+                    'Agora é sua vez ${gameState.playerOnTurn!.name}...',
                     style: const TextStyle(
                       fontSize: 20,
                     ),

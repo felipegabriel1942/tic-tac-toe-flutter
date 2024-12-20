@@ -10,7 +10,11 @@ class GameState = _GameStateBase with _$GameState;
 
 abstract class _GameStateBase with Store {
   final List<List<String?>> _gridContents = [];
+
+  @observable
   Player? _player1;
+
+  @observable
   Player? _player2;
 
   @observable
@@ -65,4 +69,8 @@ abstract class _GameStateBase with Store {
   bool canPlay(int col, int row) => !gridHasContent(col, row);
 
   Player? get playerOnTurn => _playerOnTurn;
+
+  Player? get player1 => _player1;
+
+  Player? get player2 => _player2;
 }
