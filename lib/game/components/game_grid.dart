@@ -6,8 +6,8 @@ import 'package:tic_tac_toe_flutter/models/game_state.dart';
 class GameGrid extends Component {
   final Vector2 screenSize;
 
-  final tileWidth = 150.0;
-  final tileHeight = 150.0;
+  final tileWidth = 100.0;
+  final tileHeight = 100.0;
 
   GameGrid({
     required this.screenSize,

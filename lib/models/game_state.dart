@@ -1,18 +1,25 @@
 import 'package:injectable/injectable.dart';
+import 'package:mobx/mobx.dart';
 import 'package:tic_tac_toe_flutter/models/player.dart';
+
+part 'game_state.g.dart';
 
 @lazySingleton
 @injectable
-class GameState {
+class GameState = _GameStateBase with _$GameState;
+
+abstract class _GameStateBase with Store {
   final List<List<String?>> _gridContents = [];
   Player? _player1;
   Player? _player2;
+
+  @observable
   Player? _playerOnTurn;
 
   int rows = 3;
   int cols = 3;
 
-  GameState() {
+  _GameStateBase() {
     for (int row = 0; row < rows; row++) {
       _gridContents.add(List.filled(cols, null));
     }
