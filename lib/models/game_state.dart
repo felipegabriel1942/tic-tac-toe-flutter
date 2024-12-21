@@ -9,7 +9,9 @@ part 'game_state.g.dart';
 class GameState = _GameStateBase with _$GameState;
 
 abstract class _GameStateBase with Store {
-  final List<List<String?>> _gridContents = [];
+  // TODO: Lembrar de tentar implementar funcionalidade que alterna quem começa a rodada.
+
+  final List<List<int?>> _gridContents = [];
 
   @observable
   Player? _player1;
@@ -45,23 +47,50 @@ abstract class _GameStateBase with Store {
     return _gridContents[row][col] != null;
   }
 
-  void setGridContent(int col, int row, String? content) {
+  void setGridContent(int col, int row, int? content) {
     _gridContents[row][col] = content;
   }
 
-  String? getGridContent(int col, int row) {
+  int? getGridContent(int col, int row) {
     return _gridContents[row][col];
   }
 
-  void addGridContentRow(List<String?> row) {
+  void addGridContentRow(List<int?> row) {
     _gridContents.add(row);
   }
 
   void playTurn(int col, int row) {
     if (canPlay(col, row)) {
       setGridContent(col, row, _playerOnTurn?.mark);
-      changeTurn();
+
+      if (_checkVictory()) {
+        print('O vencedor é ${_playerOnTurn!.name}');
+      } else {
+        changeTurn();
+      }
     }
+  }
+
+  List<List<int>> victoryConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  bool _checkVictory() {
+    List<int?> fieldValues = _gridContents.expand((row) => row).toList();
+
+    return victoryConditions.any((condition) {
+      var markedFields = condition.map((index) => fieldValues[index]).toList();
+
+      return markedFields.every((value) => value == 0) ||
+          markedFields.every((value) => value == 1);
+    });
   }
 
   bool canPlay(int col, int row) => !gridHasContent(col, row);
@@ -71,6 +100,8 @@ abstract class _GameStateBase with Store {
   Player? get player1 => _player1;
 
   Player? get player2 => _player2;
+
+  List<List<int?>> get gridContents => _gridContents;
 
   void resetGame() {
     _initGridContent();

@@ -38,27 +38,31 @@ class GameTile extends PositionComponent with TapCallbacks {
 
     var gridContent = gameState.getGridContent(col, row);
 
-    final textSpan = TextSpan(
-      text: gridContent,
-      style: GoogleFonts.pressStart2p(
-        textStyle: TextStyle(
-          color: _getContentColor(gridContent),
-          fontSize: 30,
+    if (gridContent != null) {
+      var gridText = gridContent == 1 ? 'X' : 'O';
+
+      final textSpan = TextSpan(
+        text: gridText,
+        style: GoogleFonts.pressStart2p(
+          textStyle: TextStyle(
+            color: _getContentColor(gridText),
+            fontSize: 30,
+          ),
         ),
-      ),
-    );
+      );
 
-    final textPainter = TextPainter(
-      text: textSpan,
-      textDirection: TextDirection.ltr,
-    );
+      final textPainter = TextPainter(
+        text: textSpan,
+        textDirection: TextDirection.ltr,
+      );
 
-    textPainter.layout();
+      textPainter.layout();
 
-    final xOffset = (size.x - textPainter.width) / 2;
-    final yOffset = (size.y - textPainter.height) / 2;
+      final xOffset = (size.x - textPainter.width) / 2;
+      final yOffset = (size.y - textPainter.height) / 2;
 
-    textPainter.paint(canvas, Offset(xOffset, yOffset));
+      textPainter.paint(canvas, Offset(xOffset, yOffset));
+    }
   }
 
   @override

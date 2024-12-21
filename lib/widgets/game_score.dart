@@ -44,7 +44,7 @@ class GameScore extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    const TextStyle textStyle = TextStyle(fontSize: 12);
+    const TextStyle textStyle = TextStyle(fontSize: 13);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
