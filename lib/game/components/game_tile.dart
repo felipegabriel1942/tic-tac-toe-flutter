@@ -2,7 +2,6 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tic_tac_toe_flutter/injectable.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 
 class GameTile extends PositionComponent with TapCallbacks {
@@ -67,7 +66,7 @@ class GameTile extends PositionComponent with TapCallbacks {
 
   @override
   void onTapUp(TapUpEvent event) {
-    getIt<GameState>().playTurn(col, row);
+    gameState.playTurn(col, row);
   }
 
   Color? _getContentColor(String? content) {

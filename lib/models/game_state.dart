@@ -1,6 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:tic_tac_toe_flutter/models/player.dart';
+import 'package:tic_tac_toe_flutter/services/grid_service.dart';
+import 'package:tic_tac_toe_flutter/services/victory_service.dart';
 
 part 'game_state.g.dart';
 
@@ -11,8 +13,6 @@ class GameState = _GameStateBase with _$GameState;
 abstract class _GameStateBase with Store {
   // TODO: Lembrar de tentar implementar funcionalidade que alterna quem começa a rodada.
 
-  final List<List<int?>> _gridContents = [];
-
   @observable
   Player? _player1;
 
@@ -22,12 +22,11 @@ abstract class _GameStateBase with Store {
   @observable
   Player? _playerOnTurn;
 
-  int rows = 3;
-  int cols = 3;
+  final VictoryService _victoryService;
 
-  _GameStateBase() {
-    _initGridContent();
-  }
+  final GridService _gridService;
+
+  _GameStateBase(this._victoryService, this._gridService);
 
   void changeTurn() {
     if (_playerOnTurn == _player1) {
@@ -43,57 +42,24 @@ abstract class _GameStateBase with Store {
     _playerOnTurn = player1;
   }
 
-  bool gridHasContent(int col, int row) {
-    return _gridContents[row][col] != null;
-  }
-
-  void setGridContent(int col, int row, int? content) {
-    _gridContents[row][col] = content;
-  }
-
   int? getGridContent(int col, int row) {
-    return _gridContents[row][col];
-  }
-
-  void addGridContentRow(List<int?> row) {
-    _gridContents.add(row);
+    return _gridService.getGridContent(col, row);
   }
 
   void playTurn(int col, int row) {
     if (canPlay(col, row)) {
-      setGridContent(col, row, _playerOnTurn?.mark);
+      _gridService.setGridContent(col, row, _playerOnTurn?.mark);
 
-      if (_checkVictory()) {
+      if (_victoryService.checkVictory(_gridService.gridContents)) {
         print('O vencedor é ${_playerOnTurn!.name}');
+        resetGame();
       } else {
         changeTurn();
       }
     }
   }
 
-  List<List<int>> victoryConditions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
-  bool _checkVictory() {
-    List<int?> fieldValues = _gridContents.expand((row) => row).toList();
-
-    return victoryConditions.any((condition) {
-      var markedFields = condition.map((index) => fieldValues[index]).toList();
-
-      return markedFields.every((value) => value == 0) ||
-          markedFields.every((value) => value == 1);
-    });
-  }
-
-  bool canPlay(int col, int row) => !gridHasContent(col, row);
+  bool canPlay(int col, int row) => !_gridService.gridHasContent(col, row);
 
   Player? get playerOnTurn => _playerOnTurn;
 
@@ -101,17 +67,11 @@ abstract class _GameStateBase with Store {
 
   Player? get player2 => _player2;
 
-  List<List<int?>> get gridContents => _gridContents;
+  int get rows => _gridService.rows;
+
+  int get cols => _gridService.cols;
 
   void resetGame() {
-    _initGridContent();
-  }
-
-  void _initGridContent() {
-    _gridContents.clear();
-
-    for (int row = 0; row < rows; row++) {
-      _gridContents.add(List.filled(cols, null));
-    }
+    _gridService.resetGrid();
   }
 }
