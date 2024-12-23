@@ -27,7 +27,10 @@ class TicTacToeGame extends FlameGame with HasKeyboardHandlerComponents {
       Player(name: 'Jordana', mark: 0),
     );
 
-    var grid = GameGrid(screenSize: size, gameState: gameState);
+    var grid = GameGrid(
+      screenSize: size,
+      gameState: gameState,
+    );
 
     add(grid);
   }

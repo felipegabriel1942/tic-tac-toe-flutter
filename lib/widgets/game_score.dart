@@ -13,30 +13,32 @@ class GameScore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 150,
-      padding: const EdgeInsets.all(15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(6),
-        color: Colors.white,
-        border: Border.all(
-          color: Colors.black,
-          width: 2,
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const Text(
-            'Placar',
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    return Observer(builder: (_) {
+      return Container(
+        width: 300,
+        height: 150,
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(6),
+          color: Colors.white,
+          border: Border.all(
+            color: Colors.black,
+            width: 2,
           ),
-          Observer(builder: (_) => _buildPlayerRow(gameState.player1)),
-          Observer(builder: (_) => _buildPlayerRow(gameState.player2)),
-        ],
-      ),
-    );
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const Text(
+              'Placar',
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+            ),
+            _buildPlayerRow(gameState.player1),
+            _buildPlayerRow(gameState.player2),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildPlayerRow(Player? player) {

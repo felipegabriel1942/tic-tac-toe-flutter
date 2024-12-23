@@ -19,15 +19,15 @@ class GridService {
     }
   }
 
-  bool gridHasContent(int col, int row) {
+  bool tileHasContent(int col, int row) {
     return _gridContents[row][col] != null;
   }
 
-  void setGridContent(int col, int row, int? content) {
+  void setTileContent(int col, int row, int? content) {
     _gridContents[row][col] = content;
   }
 
-  int? getGridContent(int col, int row) {
+  int? getTileContent(int col, int row) {
     return _gridContents[row][col];
   }
 

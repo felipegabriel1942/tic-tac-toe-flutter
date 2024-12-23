@@ -35,10 +35,10 @@ class GameTile extends PositionComponent with TapCallbacks {
 
     canvas.drawRRect(backgroundRect, borderPaint);
 
-    var gridContent = gameState.getGridContent(col, row);
+    var tileContent = gameState.getTileContent(col, row);
 
-    if (gridContent != null) {
-      var gridText = gridContent == 1 ? 'X' : 'O';
+    if (tileContent != null) {
+      var gridText = tileContent == 1 ? 'X' : 'O';
 
       final textSpan = TextSpan(
         text: gridText,

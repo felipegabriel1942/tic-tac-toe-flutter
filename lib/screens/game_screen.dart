@@ -15,8 +15,6 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    gameState.resetGame();
-
     return Scaffold(
       appBar: AppBar(),
       body: Center(

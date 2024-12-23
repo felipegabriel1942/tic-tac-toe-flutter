@@ -25,14 +25,22 @@ class GameLog extends StatelessWidget {
               width: 2,
             ),
           ),
+          // TODO: Criar um serviço para gerenciar os logs
           child: gameState.playerOnTurn == null
               ? const SizedBox.shrink()
-              : Center(
-                  child: Text(
-                    'É sua vez ${gameState.playerOnTurn!.name}!',
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ),
+              : gameState.isFirstPlay
+                  ? Center(
+                      child: Text(
+                        'Você começa ${gameState.playerOnTurn!.name}!',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    )
+                  : Center(
+                      child: Text(
+                        'É sua vez ${gameState.playerOnTurn!.name}!',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    ),
         );
       },
     );

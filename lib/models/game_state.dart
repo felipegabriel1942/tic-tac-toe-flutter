@@ -11,8 +11,6 @@ part 'game_state.g.dart';
 class GameState = _GameStateBase with _$GameState;
 
 abstract class _GameStateBase with Store {
-  // TODO: Lembrar de tentar implementar funcionalidade que alterna quem começa a rodada.
-
   @observable
   Player? _player1;
 
@@ -28,7 +26,7 @@ abstract class _GameStateBase with Store {
 
   _GameStateBase(this._victoryService, this._gridService);
 
-  void changeTurn() {
+  void changePlayerOnTurn() {
     if (_playerOnTurn == _player1) {
       _playerOnTurn = _player2;
     } else {
@@ -42,24 +40,24 @@ abstract class _GameStateBase with Store {
     _playerOnTurn = player1;
   }
 
-  int? getGridContent(int col, int row) {
-    return _gridService.getGridContent(col, row);
+  int? getTileContent(int col, int row) {
+    return _gridService.getTileContent(col, row);
   }
 
   void playTurn(int col, int row) {
     if (canPlay(col, row)) {
-      _gridService.setGridContent(col, row, _playerOnTurn?.mark);
+      _gridService.setTileContent(col, row, _playerOnTurn?.mark);
 
       if (_victoryService.checkVictory(_gridService.gridContents)) {
-        print('O vencedor é ${_playerOnTurn!.name}');
-        resetGame();
-      } else {
-        changeTurn();
+        _playerOnTurn?.increaseScore();
+        _gridService.resetGrid();
       }
+
+      changePlayerOnTurn();
     }
   }
 
-  bool canPlay(int col, int row) => !_gridService.gridHasContent(col, row);
+  bool canPlay(int col, int row) => !_gridService.tileHasContent(col, row);
 
   Player? get playerOnTurn => _playerOnTurn;
 
@@ -71,7 +69,12 @@ abstract class _GameStateBase with Store {
 
   int get cols => _gridService.cols;
 
-  void resetGame() {
-    _gridService.resetGrid();
-  }
+  bool get isFirstPlay => _gridService.gridContents
+      .expand((row) => row)
+      .toList()
+      .every((element) => element == null);
+
+  // void resetGame() {
+  //   _gridService.resetGrid();
+  // }
 }
