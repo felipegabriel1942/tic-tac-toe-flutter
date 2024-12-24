@@ -57,6 +57,38 @@ mixin _$GameState on _GameStateBase, Store {
     });
   }
 
+  late final _$_matchStatusAtom =
+      Atom(name: '_GameStateBase._matchStatus', context: context);
+
+  @override
+  MatchStatus? get _matchStatus {
+    _$_matchStatusAtom.reportRead();
+    return super._matchStatus;
+  }
+
+  @override
+  set _matchStatus(MatchStatus? value) {
+    _$_matchStatusAtom.reportWrite(value, super._matchStatus, () {
+      super._matchStatus = value;
+    });
+  }
+
+  late final _$_gameModeAtom =
+      Atom(name: '_GameStateBase._gameMode', context: context);
+
+  @override
+  GameMode? get _gameMode {
+    _$_gameModeAtom.reportRead();
+    return super._gameMode;
+  }
+
+  @override
+  set _gameMode(GameMode? value) {
+    _$_gameModeAtom.reportWrite(value, super._gameMode, () {
+      super._gameMode = value;
+    });
+  }
+
   @override
   String toString() {
     return '''

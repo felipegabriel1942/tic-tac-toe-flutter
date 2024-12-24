@@ -2,8 +2,8 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_flutter/game/tic_tac_toe_game.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
-import 'package:tic_tac_toe_flutter/widgets/game_log.dart';
-import 'package:tic_tac_toe_flutter/widgets/game_score.dart';
+import 'package:tic_tac_toe_flutter/widgets/draw_dialog.dart';
+import 'package:tic_tac_toe_flutter/widgets/victory_dialog.dart';
 
 class GameScreen extends StatelessWidget {
   final GameState gameState;
@@ -15,22 +15,34 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ;
     return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SizedBox(
-              height: 300,
-              child: GameWidget(
-                game: TicTacToeGame(gameState: gameState),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: GameWidget(
+              game: TicTacToeGame(
+                gameState: gameState,
               ),
+              overlayBuilderMap: {
+                'Victory': (context, TicTacToeGame game) => VictoryDialog(
+                      gameState: gameState,
+                      onClose: () {
+                        game.overlays.remove('Victory');
+                        gameState.resetGame();
+                      },
+                    ),
+                'Draw': (context, TicTacToeGame game) => DrawDialog(
+                      gameState: gameState,
+                      onClose: () {
+                        game.overlays.remove('Draw');
+                        gameState.resetGame();
+                      },
+                    )
+              },
             ),
-            GameLog(gameState: gameState),
-            GameScore(gameState: gameState)
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

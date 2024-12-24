@@ -40,4 +40,8 @@ class GridService {
   }
 
   List<List<int?>> get gridContents => _gridContents;
+
+  bool isFull() {
+    return _gridContents.expand((e) => e).every((tile) => tile != null);
+  }
 }

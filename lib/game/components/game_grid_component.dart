@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
-import 'package:tic_tac_toe_flutter/game/components/game_tile.dart';
+import 'package:tic_tac_toe_flutter/enums/tile_border_enum.dart';
+import 'package:tic_tac_toe_flutter/game/components/game_tile_component.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 
 class GameGrid extends Component {
@@ -26,17 +27,35 @@ class GameGrid extends Component {
     final screenCenter = Vector2(screenSize.x / 2, screenSize.y / 2);
     final gridStartPosition = Vector2(
       screenCenter.x - gridWidth / 2,
-      screenCenter.y - gridHeight / 2,
+      100,
     );
+
+    final Map<int, Map<int, Set<TileBorder>>> borderMap = {
+      0: {
+        0: {TileBorder.bottom, TileBorder.right},
+        1: {TileBorder.bottom},
+        2: {TileBorder.bottom, TileBorder.left}
+      },
+      1: {
+        0: {TileBorder.bottom, TileBorder.right},
+        1: {TileBorder.bottom},
+        2: {TileBorder.bottom, TileBorder.left}
+      },
+      2: {
+        0: {TileBorder.right},
+        1: {},
+        2: {TileBorder.left}
+      }
+    };
 
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
         var position =
             gridStartPosition + Vector2(col * tileWidth, row * tileHeight);
         var size = Vector2(tileWidth, tileHeight);
-        var tile = GameTile(position, size, row, col, gameState);
+        final borders = borderMap[row]?[col] ?? {};
 
-        add(tile);
+        add(GameTile(position, size, row, col, gameState, borders));
       }
     }
   }

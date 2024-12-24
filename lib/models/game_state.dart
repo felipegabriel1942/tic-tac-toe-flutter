@@ -1,5 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+import 'package:tic_tac_toe_flutter/enums/game_mode_enum.dart';
+import 'package:tic_tac_toe_flutter/enums/match_status_enum.dart';
 import 'package:tic_tac_toe_flutter/models/player.dart';
 import 'package:tic_tac_toe_flutter/services/grid_service.dart';
 import 'package:tic_tac_toe_flutter/services/victory_service.dart';
@@ -19,6 +21,12 @@ abstract class _GameStateBase with Store {
 
   @observable
   Player? _playerOnTurn;
+
+  @observable
+  MatchStatus? _matchStatus;
+
+  @observable
+  GameMode? _gameMode = GameMode.twoPlayer;
 
   final VictoryService _victoryService;
 
@@ -51,9 +59,12 @@ abstract class _GameStateBase with Store {
       if (_victoryService.checkVictory(_gridService.gridContents)) {
         _playerOnTurn?.increaseScore();
         _gridService.resetGrid();
+        _matchStatus = MatchStatus.victory;
+      } else if (_gridService.isFull()) {
+        _matchStatus = MatchStatus.draw;
+      } else {
+        changePlayerOnTurn();
       }
-
-      changePlayerOnTurn();
     }
   }
 
@@ -74,7 +85,15 @@ abstract class _GameStateBase with Store {
       .toList()
       .every((element) => element == null);
 
-  // void resetGame() {
-  //   _gridService.resetGrid();
-  // }
+  MatchStatus? get matchStatus => _matchStatus;
+
+  void resetGame() {
+    _matchStatus = null;
+    changePlayerOnTurn();
+    _gridService.resetGrid();
+  }
+
+  set gameMode(GameMode mode) {
+    _gameMode = mode;
+  }
 }
