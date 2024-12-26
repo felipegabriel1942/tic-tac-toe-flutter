@@ -32,7 +32,7 @@ class GameScoreComponent extends PositionComponent
         ),
       ),
       anchor: Anchor.center,
-      position: Vector2(100, 500),
+      position: Vector2(100, 650),
     );
 
     add(textComponent);

@@ -89,6 +89,22 @@ mixin _$GameState on _GameStateBase, Store {
     });
   }
 
+  late final _$_gameLogAtom =
+      Atom(name: '_GameStateBase._gameLog', context: context);
+
+  @override
+  String get _gameLog {
+    _$_gameLogAtom.reportRead();
+    return super._gameLog;
+  }
+
+  @override
+  set _gameLog(String value) {
+    _$_gameLogAtom.reportWrite(value, super._gameLog, () {
+      super._gameLog = value;
+    });
+  }
+
   @override
   String toString() {
     return '''

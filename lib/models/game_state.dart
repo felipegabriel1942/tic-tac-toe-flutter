@@ -28,6 +28,9 @@ abstract class _GameStateBase with Store {
   @observable
   GameMode? _gameMode = GameMode.twoPlayer;
 
+  @observable
+  String _gameLog = '';
+
   final VictoryService _victoryService;
 
   final GridService _gridService;
@@ -46,6 +49,7 @@ abstract class _GameStateBase with Store {
     _player1 = player1;
     _player2 = player2;
     _playerOnTurn = player1;
+    _gameLog = 'Roboto: Você começa ${_playerOnTurn!.name}!';
   }
 
   int? getTileContent(int col, int row) {
@@ -64,6 +68,7 @@ abstract class _GameStateBase with Store {
         _matchStatus = MatchStatus.draw;
       } else {
         changePlayerOnTurn();
+        _gameLog = 'Roboto: Agora é sua vez ${_playerOnTurn!.name}!';
       }
     }
   }
@@ -86,6 +91,8 @@ abstract class _GameStateBase with Store {
       .every((element) => element == null);
 
   MatchStatus? get matchStatus => _matchStatus;
+
+  String get gameLog => _gameLog;
 
   void resetGame() {
     _matchStatus = null;
