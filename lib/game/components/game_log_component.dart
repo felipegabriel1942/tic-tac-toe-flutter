@@ -20,7 +20,7 @@ class GameLogComponent extends TextBoxComponent {
     required this.componentSize,
   }) : super(
           text: gameState.gameLog,
-          position: Vector2(50, 500),
+          position: Vector2(50, 600),
           textRenderer: TextPaint(
             style: GoogleFonts.pressStart2p(
               fontSize: 20,

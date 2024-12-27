@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_flutter/game/tic_tac_toe_game.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 import 'package:tic_tac_toe_flutter/widgets/draw_dialog.dart';
+import 'package:tic_tac_toe_flutter/widgets/menu_button.dart';
 import 'package:tic_tac_toe_flutter/widgets/victory_dialog.dart';
 
 class GameScreen extends StatelessWidget {
@@ -15,7 +16,8 @@ class GameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ;
+    gameState.resetGame();
+
     return Scaffold(
       body: Stack(
         children: [
@@ -29,16 +31,17 @@ class GameScreen extends StatelessWidget {
                       gameState: gameState,
                       onClose: () {
                         game.overlays.remove('Victory');
-                        gameState.resetGame();
+                        gameState.restartMatch();
                       },
                     ),
                 'Draw': (context, TicTacToeGame game) => DrawDialog(
                       gameState: gameState,
                       onClose: () {
                         game.overlays.remove('Draw');
-                        gameState.resetGame();
+                        gameState.restartMatch();
                       },
-                    )
+                    ),
+                'MenuButton': (context, TicTacToeGame game) => MenuButton()
               },
             ),
           )

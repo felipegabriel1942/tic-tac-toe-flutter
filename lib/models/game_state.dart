@@ -3,6 +3,7 @@ import 'package:mobx/mobx.dart';
 import 'package:tic_tac_toe_flutter/enums/game_mode_enum.dart';
 import 'package:tic_tac_toe_flutter/enums/match_status_enum.dart';
 import 'package:tic_tac_toe_flutter/models/player.dart';
+import 'package:tic_tac_toe_flutter/models/victory_condition.dart';
 import 'package:tic_tac_toe_flutter/services/grid_service.dart';
 import 'package:tic_tac_toe_flutter/services/victory_service.dart';
 
@@ -35,6 +36,8 @@ abstract class _GameStateBase with Store {
 
   final GridService _gridService;
 
+  VictoryCondition? winningCondition;
+
   _GameStateBase(this._victoryService, this._gridService);
 
   void changePlayerOnTurn() {
@@ -57,23 +60,73 @@ abstract class _GameStateBase with Store {
   }
 
   void playTurn(int col, int row) {
-    if (canPlay(col, row)) {
-      _gridService.setTileContent(col, row, _playerOnTurn?.mark);
+    if (!_isValidMove(col, row)) return;
 
-      if (_victoryService.checkVictory(_gridService.gridContents)) {
-        _playerOnTurn?.increaseScore();
-        _gridService.resetGrid();
-        _matchStatus = MatchStatus.victory;
-      } else if (_gridService.isFull()) {
-        _matchStatus = MatchStatus.draw;
-      } else {
-        changePlayerOnTurn();
-        _gameLog = 'Roboto: Agora é sua vez ${_playerOnTurn!.name}!';
-      }
+    _makeMove(col, row);
+
+    if (_checkVictory()) {
+      _handleVictory();
+    } else if (_gridService.isFull()) {
+      _handleDraw();
+    } else {
+      _nextPlayer();
     }
   }
 
+  bool _isValidMove(col, row) {
+    return canPlay(col, row) && winningCondition == null;
+  }
+
+  void _makeMove(int col, int row) {
+    _gridService.setTileContent(col, row, _playerOnTurn?.mark);
+  }
+
+  bool _checkVictory() {
+    VictoryCondition? victoryCondition =
+        _victoryService.checkVictory(_gridService.gridContents);
+
+    if (victoryCondition != null) {
+      winningCondition = victoryCondition;
+      return true;
+    }
+
+    return false;
+  }
+
+  void _handleVictory() {
+    _playerOnTurn?.increaseScore();
+    _gameLog = 'Roboto: ${_playerOnTurn!.name} venceu!';
+
+    Future.delayed(const Duration(seconds: 2), () {
+      _matchStatus = MatchStatus.victory;
+      restartMatch();
+    });
+  }
+
+  void _handleDraw() {
+    _matchStatus = MatchStatus.draw;
+  }
+
+  void _nextPlayer() {
+    changePlayerOnTurn();
+    _gameLog = 'Roboto: Agora é sua vez ${_playerOnTurn!.name}!';
+  }
+
   bool canPlay(int col, int row) => !_gridService.tileHasContent(col, row);
+
+  void resetGame() {
+    restartMatch();
+    _player1?.resetScore();
+    _player2?.resetScore();
+  }
+
+  void restartMatch() {
+    _matchStatus = null;
+    winningCondition = null;
+    _gridService.resetGrid();
+    changePlayerOnTurn();
+    _gameLog = 'Roboto: Você começa ${_playerOnTurn!.name}!';
+  }
 
   Player? get playerOnTurn => _playerOnTurn;
 
@@ -93,12 +146,6 @@ abstract class _GameStateBase with Store {
   MatchStatus? get matchStatus => _matchStatus;
 
   String get gameLog => _gameLog;
-
-  void resetGame() {
-    _matchStatus = null;
-    changePlayerOnTurn();
-    _gridService.resetGrid();
-  }
 
   set gameMode(GameMode mode) {
     _gameMode = mode;

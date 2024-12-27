@@ -34,4 +34,9 @@ abstract class _PlayerBase with Store {
   void increaseScore() {
     score++;
   }
+
+  @action
+  void resetScore() {
+    score = 0;
+  }
 }

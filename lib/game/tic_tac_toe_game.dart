@@ -2,7 +2,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_flutter/enums/match_status_enum.dart';
-import 'package:tic_tac_toe_flutter/game/components/game_grid_component.dart';
+import 'package:tic_tac_toe_flutter/game/components/game_board_component.dart';
 import 'package:tic_tac_toe_flutter/game/components/game_log_component.dart';
 import 'package:tic_tac_toe_flutter/game/components/game_score_component.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
@@ -25,12 +25,14 @@ class TicTacToeGame extends FlameGame with HasKeyboardHandlerComponents {
   }
 
   void initializeGame() {
+    overlays.add('MenuButton');
+
     gameState.initializePlayers(
       Player(name: 'Felipe', mark: 1),
       Player(name: 'Jordana', mark: 0),
     );
 
-    var grid = GameGrid(
+    var grid = GameBoard(
       screenSize: size,
       gameState: gameState,
     );
@@ -64,6 +66,4 @@ class TicTacToeGame extends FlameGame with HasKeyboardHandlerComponents {
       overlays.add('Draw');
     }
   }
-
-  void close() {}
 }

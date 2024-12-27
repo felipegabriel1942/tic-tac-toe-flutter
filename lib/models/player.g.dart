@@ -69,6 +69,17 @@ mixin _$Player on _PlayerBase, Store {
   }
 
   @override
+  void resetScore() {
+    final _$actionInfo = _$_PlayerBaseActionController.startAction(
+        name: '_PlayerBase.resetScore');
+    try {
+      return super.resetScore();
+    } finally {
+      _$_PlayerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 name: ${name},

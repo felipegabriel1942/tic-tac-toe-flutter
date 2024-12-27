@@ -1,27 +1,89 @@
 import 'package:injectable/injectable.dart';
+import 'package:tic_tac_toe_flutter/enums/victory_line_enum.dart';
+import 'package:tic_tac_toe_flutter/models/victory_condition.dart';
 
 @injectable
 @lazySingleton
 class VictoryService {
-  List<List<int>> victoryConditions = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
+  List<VictoryCondition> conditions = [
+    VictoryCondition(
+      positions: [
+        [0, 0],
+        [0, 1],
+        [0, 2]
+      ],
+      line: VictoryLine.horizontal,
+    ),
+    VictoryCondition(
+      positions: [
+        [1, 0],
+        [1, 1],
+        [1, 2]
+      ],
+      line: VictoryLine.horizontal,
+    ),
+    VictoryCondition(
+      positions: [
+        [2, 0],
+        [2, 1],
+        [2, 2]
+      ],
+      line: VictoryLine.horizontal,
+    ),
+    VictoryCondition(
+      positions: [
+        [0, 0],
+        [1, 0],
+        [2, 0]
+      ],
+      line: VictoryLine.vertical,
+    ),
+    VictoryCondition(
+      positions: [
+        [0, 1],
+        [1, 1],
+        [2, 1]
+      ],
+      line: VictoryLine.vertical,
+    ),
+    VictoryCondition(
+      positions: [
+        [0, 2],
+        [1, 2],
+        [2, 2]
+      ],
+      line: VictoryLine.vertical,
+    ),
+    VictoryCondition(
+      positions: [
+        [0, 0],
+        [1, 1],
+        [2, 2]
+      ],
+      line: VictoryLine.diagonalRight,
+    ),
+    VictoryCondition(
+      positions: [
+        [0, 2],
+        [1, 1],
+        [2, 0]
+      ],
+      line: VictoryLine.diagonalLeft,
+    )
   ];
 
-  bool checkVictory(List<List<int?>> gridContents) {
-    List<int?> fieldValues = gridContents.expand((row) => row).toList();
+  VictoryCondition? checkVictory(List<List<int?>> gridContents) {
+    for (var condition in conditions) {
+      int? firstTile =
+          gridContents[condition.positions[0][0]][condition.positions[0][1]];
 
-    return victoryConditions.any((condition) {
-      var markedFields = condition.map((index) => fieldValues[index]).toList();
+      if (firstTile != null &&
+          condition.positions
+              .every((pos) => gridContents[pos[0]][pos[1]] == firstTile)) {
+        return condition;
+      }
+    }
 
-      return markedFields.every((value) => value == 0) ||
-          markedFields.every((value) => value == 1);
-    });
+    return null;
   }
 }
