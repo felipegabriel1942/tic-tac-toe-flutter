@@ -5,6 +5,7 @@ import 'package:tic_tac_toe_flutter/enums/match_status_enum.dart';
 import 'package:tic_tac_toe_flutter/game/components/game_board_component.dart';
 import 'package:tic_tac_toe_flutter/game/components/game_log_component.dart';
 import 'package:tic_tac_toe_flutter/game/components/game_score_component.dart';
+import 'package:tic_tac_toe_flutter/game/components/roboto_component.dart';
 import 'package:tic_tac_toe_flutter/models/game_state.dart';
 import 'package:tic_tac_toe_flutter/models/player.dart';
 
@@ -12,15 +13,19 @@ class TicTacToeGame extends FlameGame with HasKeyboardHandlerComponents {
   final GameState gameState;
 
   TicTacToeGame({
-    super.children,
-    super.world,
-    super.camera,
     required this.gameState,
   });
 
   @override
   Future<void> onLoad() async {
     super.onLoad();
+
+    await images.loadAll([
+      'roboto.png',
+      'roboto2.png',
+      'roboto-idle.png',
+    ]);
+
     initializeGame();
   }
 
@@ -44,9 +49,9 @@ class TicTacToeGame extends FlameGame with HasKeyboardHandlerComponents {
       componentSize: Vector2(size.x - 100, size.y),
     );
 
-    add(score);
-    add(grid);
-    add(log);
+    var roboto = RobotoComponent(screenPosition: Vector2(130, 710));
+
+    addAll([score, grid, log, roboto]);
   }
 
   @override

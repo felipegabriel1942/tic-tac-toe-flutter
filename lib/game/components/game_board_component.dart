@@ -36,7 +36,7 @@ class GameBoard extends Component {
     final screenCenter = Vector2(screenSize.x / 2, screenSize.y / 2);
     final gridStartPosition = Vector2(
       screenCenter.x - gridWidth / 2,
-      250,
+      230,
     );
 
     final Map<int, Map<int, Set<TileBorder>>> borderMap = {

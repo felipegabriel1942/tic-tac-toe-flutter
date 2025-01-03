@@ -125,7 +125,7 @@ abstract class _GameStateBase with Store {
     winningCondition = null;
     _gridService.resetGrid();
     changePlayerOnTurn();
-    _gameLog = 'Roboto: Você começa ${_playerOnTurn!.name}!';
+    _gameLog = 'Roboto: Você começa ${_playerOnTurn?.name}!';
   }
 
   Player? get playerOnTurn => _playerOnTurn;
